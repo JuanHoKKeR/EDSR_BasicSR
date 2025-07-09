@@ -11,8 +11,8 @@ datasets:
     name: MicroscopyTrain
     type: MicroscopyPairedDataset
     # Archivos de texto con rutas de imágenes LR y HR
-    lr_meta_file: datasets/microscopy/paired_lr_meta.txt
-    hr_meta_file: datasets/microscopy/paired_hr_meta.txt
+    lr_meta_file: dataset/256to512/train_lr_meta.txt
+    hr_meta_file: dataset/256to512/train_hr_meta.txt
     io_backend:
       type: disk
 
@@ -31,8 +31,8 @@ datasets:
   val:
     name: MicroscopyVal
     type: MicroscopyPairedDataset
-    lr_meta_file: datasets/microscopy/paired_lr_meta_val.txt
-    hr_meta_file: datasets/microscopy/paired_hr_meta_val.txt
+    lr_meta_file: dataset/256to512/test_lr_meta.txt
+    hr_meta_file: dataset/256to512/test_hr_meta.txt
     io_backend:
       type: disk
 

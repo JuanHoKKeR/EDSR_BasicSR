@@ -208,7 +208,7 @@ def create_meta_pairs(hr_meta_file, lr_meta_file, output_dir, sample_size=None,
     return all_outputs
 
 def create_dataset_splits(paired_lr_file, paired_hr_file, output_dir, 
-                         splits={'train': 0.8, 'val': 0.15, 'test': 0.05}, seed=42):
+                         splits={'train': 0.85, 'val': 0.148, 'test': 0.002}, seed=42):
     """Crear splits de entrenamiento/validación/test manteniendo el emparejamiento"""
     
     print(f"\n📂 Creando splits del dataset...")

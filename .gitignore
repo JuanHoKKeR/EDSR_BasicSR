@@ -130,3 +130,22 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+
+Microscopy
+
+# Entorno Virtual
+edsr_venv/
+
+# Dataset Microscopy
+dataset/meta_info_*.txt
+dataset/64to128/*
+dataset/64to256/*
+dataset/64to512/*
+dataset/64to1024/*
+dataset/128to256/*
+dataset/128to512/*
+dataset/128to1024/*
+dataset/256to512/*
+dataset/256to1024/*
+dataset/512to1024/*

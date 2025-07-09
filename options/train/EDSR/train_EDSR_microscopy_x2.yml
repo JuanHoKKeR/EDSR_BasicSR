@@ -1,0 +1,115 @@
+# general settings
+name: EDSR_Microscopy_256to512
+model_type: SRModelMicroscopy
+scale: 2  # Escala x2 para 256->512
+num_gpu: 1  # RTX 4090
+manual_seed: 42
+
+# dataset and data loader settings
+datasets:
+  train:
+    name: MicroscopyTrain
+    type: MicroscopyPairedDataset
+    # Archivos de texto con rutas de imágenes LR y HR
+    lr_meta_file: datasets/microscopy/paired_lr_meta.txt
+    hr_meta_file: datasets/microscopy/paired_hr_meta.txt
+    io_backend:
+      type: disk
+
+    gt_size: 256  # Tamaño de parches HR (LR será 128x128)
+    use_hflip: true
+    use_rot: true
+
+    # data loader - optimizado para RTX 4090
+    num_worker_per_gpu: 8  # Aumentado para RTX 4090
+    batch_size_per_gpu: 16
+    dataset_enlarge_ratio: 100
+    prefetch_mode: cuda  # Usar prefetch en GPU para mejor rendimiento
+    pin_memory: true
+    persistent_workers: true
+
+  val:
+    name: MicroscopyVal
+    type: MicroscopyPairedDataset
+    lr_meta_file: datasets/microscopy/paired_lr_meta_val.txt
+    hr_meta_file: datasets/microscopy/paired_hr_meta_val.txt
+    io_backend:
+      type: disk
+
+# network structures
+network_g:
+  type: EDSR
+  num_in_ch: 3
+  num_out_ch: 3
+  num_feat: 256
+  num_block: 32
+  upscale: 2  # Escala x2
+  res_scale: 0.1
+  img_range: 255.
+  rgb_mean: [0.5, 0.5, 0.5]  # Normalización simple, ajusta según tu dataset
+
+# path
+path:
+  pretrain_network_g: ~  # Sin pretrain inicial
+  strict_load_g: false
+  resume_state: ~
+
+# training settings
+train:
+  ema_decay: 0.999
+  optim_g:
+    type: Adam
+    lr: !!float 1e-4
+    weight_decay: 0
+    betas: [0.9, 0.99]
+
+  scheduler:
+    type: MultiStepLR
+    milestones: [500000, 800000]  # Ajustado para 1M iteraciones
+    gamma: 0.5
+
+  total_iter: 1000000  # Aumentado para dataset grande (440k imágenes)
+  warmup_iter: -1  # no warm up
+
+  # losses
+  pixel_opt:
+    type: L1Loss
+    loss_weight: 1.0
+    reduction: mean
+
+# validation settings
+val:
+  val_freq: !!float 5e3
+  save_img: false
+
+  metrics:
+    psnr: # metric name, can be arbitrary
+      type: calculate_psnr
+      crop_border: 4
+      test_y_channel: false
+    ssim:
+      type: calculate_ssim
+      crop_border: 4
+      test_y_channel: false
+    msssim:
+      type: calculate_msssim
+      crop_border: 4
+      test_y_channel: false
+    mse:
+      type: calculate_mse
+      crop_border: 4
+      test_y_channel: false
+
+# logging settings
+logger:
+  print_freq: 100
+  save_checkpoint_freq: !!float 5e3
+  use_tb_logger: true
+  wandb:
+    project: microscopy_edsr_x2
+    resume_id: ~
+
+# dist training settings
+dist_params:
+  backend: nccl
+  port: 29500 

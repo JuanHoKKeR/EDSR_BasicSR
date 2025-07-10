@@ -84,11 +84,11 @@ val:
 
   metrics:
     psnr: # metric name, can be arbitrary
-      type: calculate_psnr
+      type: calculate_psnr_micro
       crop_border: 4
       test_y_channel: false
     ssim:
-      type: calculate_ssim
+      type: calculate_ssim_micro
       crop_border: 4
       test_y_channel: false
     msssim:

@@ -8,7 +8,7 @@ from basicsr.utils import img2tensor, tensor2img
 
 
 @METRIC_REGISTRY.register()
-def calculate_psnr(img, img2, **kwargs):
+def calculate_psnr_micro(img, img2, **kwargs):
     """Calculate PSNR (Peak Signal-to-Noise Ratio).
     
     Args:
@@ -71,7 +71,7 @@ def calculate_mse(img, img2, **kwargs):
 
 
 @METRIC_REGISTRY.register()
-def calculate_ssim(img, img2, **kwargs):
+def calculate_ssim_micro(img, img2, **kwargs):
     """Calculate SSIM (Structural Similarity Index).
     
     Args:

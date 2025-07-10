@@ -28,6 +28,71 @@ class SRModelMicroscopy(SRModel):
             self.use_wandb = False
             logger = get_root_logger()
             logger.warning('Wandb not found. Image logging will be disabled.')
+        
+        # Import metrics for training batch calculation
+        from basicsr.metrics.microscopy_metrics import calculate_psnr_micro, calculate_ssim_micro, calculate_msssim, calculate_mse
+        self.calculate_psnr = calculate_psnr_micro
+        self.calculate_ssim = calculate_ssim_micro
+        self.calculate_msssim = calculate_msssim
+        self.calculate_mse = calculate_mse
+
+    def calculate_batch_metrics(self, pred, target):
+        """Calculate metrics for a batch of images during training."""
+        # Ensure images are in [0, 1] range
+        pred = torch.clamp(pred, 0, 1)
+        target = torch.clamp(target, 0, 1)
+        
+        # Calculate metrics for each image in the batch
+        batch_metrics = {'psnr': [], 'ssim': [], 'msssim': [], 'mse': []}
+        
+        for i in range(pred.shape[0]):
+            # Get single image
+            pred_img = pred[i:i+1]
+            target_img = target[i:i+1]
+            
+            # Convert to numpy for metric calculation
+            pred_np = tensor2img([pred_img])
+            target_np = tensor2img([target_img])
+            
+            # Calculate metrics
+            metric_data = {'img': pred_np, 'img2': target_np}
+            
+            batch_metrics['psnr'].append(self.calculate_psnr(metric_data, {}))
+            batch_metrics['ssim'].append(self.calculate_ssim(metric_data, {}))
+            batch_metrics['msssim'].append(self.calculate_msssim(metric_data, {}))
+            batch_metrics['mse'].append(self.calculate_mse(metric_data, {}))
+        
+        # Return average metrics
+        return {
+            'psnr': np.mean(batch_metrics['psnr']),
+            'ssim': np.mean(batch_metrics['ssim']),
+            'msssim': np.mean(batch_metrics['msssim']),
+            'mse': np.mean(batch_metrics['mse'])
+        }
+
+    def optimize_parameters(self, current_iter):
+        """Override optimize_parameters to include metric calculation."""
+        # Call parent method
+        super().optimize_parameters(current_iter)
+        
+        # Calculate metrics for current batch
+        if hasattr(self, 'output') and hasattr(self, 'gt'):
+            batch_metrics = self.calculate_batch_metrics(self.output, self.gt)
+            
+            # Add metrics to log_dict for logging
+            for metric_name, metric_value in batch_metrics.items():
+                self.log_dict[f'train_{metric_name}'] = metric_value
+            
+            # Log to W&B if available
+            if self.use_wandb:
+                wandb_log_dict = {
+                    'train/psnr': batch_metrics['psnr'],
+                    'train/ssim': batch_metrics['ssim'],
+                    'train/msssim': batch_metrics['msssim'],
+                    'train/mse': batch_metrics['mse'],
+                    'train/step': current_iter
+                }
+                self.wandb.log(wandb_log_dict)
 
     def nondist_validation(self, dataloader, current_iter, tb_logger, save_img):
         dataset_name = dataloader.dataset.opt['name']

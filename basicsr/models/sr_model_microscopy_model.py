@@ -54,13 +54,11 @@ class SRModelMicroscopy(SRModel):
             pred_np = tensor2img([pred_img])
             target_np = tensor2img([target_img])
             
-            # Calculate metrics
-            metric_data = {'img': pred_np, 'img2': target_np}
-            
-            batch_metrics['psnr'].append(self.calculate_psnr(metric_data, {}))
-            batch_metrics['ssim'].append(self.calculate_ssim(metric_data, {}))
-            batch_metrics['msssim'].append(self.calculate_msssim(metric_data, {}))
-            batch_metrics['mse'].append(self.calculate_mse(metric_data, {}))
+            # Calculate metrics - pass numpy arrays directly, not dict
+            batch_metrics['psnr'].append(self.calculate_psnr(pred_np, target_np))
+            batch_metrics['ssim'].append(self.calculate_ssim(pred_np, target_np))
+            batch_metrics['msssim'].append(self.calculate_msssim(pred_np, target_np))
+            batch_metrics['mse'].append(self.calculate_mse(pred_np, target_np))
         
         # Return average metrics
         return {

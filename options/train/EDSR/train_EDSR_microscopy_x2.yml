@@ -23,7 +23,7 @@ datasets:
     # data loader - optimizado para RTX 4090
     num_worker_per_gpu: 12  # Aumentado para RTX 4090
     batch_size_per_gpu: 16  # Aumentado para RTX 4090
-    dataset_enlarge_ratio: 50  # Reducido para acelerar
+    dataset_enlarge_ratio: 1  # Reducido para acelerar
     prefetch_mode: cuda  # Usar prefetch en GPU para mejor rendimiento
     pin_memory: true
     persistent_workers: true

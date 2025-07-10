@@ -21,9 +21,9 @@ datasets:
     use_rot: true
 
     # data loader - optimizado para RTX 4090
-    num_worker_per_gpu: 8  # Aumentado para RTX 4090
-    batch_size_per_gpu: 16
-    dataset_enlarge_ratio: 100
+    num_worker_per_gpu: 12  # Aumentado para RTX 4090
+    batch_size_per_gpu: 16  # Aumentado para RTX 4090
+    dataset_enlarge_ratio: 50  # Reducido para acelerar
     prefetch_mode: cuda  # Usar prefetch en GPU para mejor rendimiento
     pin_memory: true
     persistent_workers: true
@@ -106,7 +106,7 @@ logger:
   save_checkpoint_freq: !!float 5e3
   use_tb_logger: true
   wandb:
-    project: microscopy_edsr_x2
+    project: EDSR_Microscopy_X2
     resume_id: ~
 
 # dist training settings

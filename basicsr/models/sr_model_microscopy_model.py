@@ -75,8 +75,8 @@ class SRModelMicroscopy(SRModel):
         # Call parent method
         super().optimize_parameters(current_iter)
         
-        # Calculate metrics for current batch
-        if hasattr(self, 'output') and hasattr(self, 'gt'):
+        # Calculate metrics only every 100 iterations to speed up training
+        if current_iter % 100 == 0 and hasattr(self, 'output') and hasattr(self, 'gt'):
             batch_metrics = self.calculate_batch_metrics(self.output, self.gt)
             
             # Add metrics to log_dict for logging

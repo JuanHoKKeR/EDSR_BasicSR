@@ -38,7 +38,7 @@ class SRModelMicroscopy(SRModel):
 
     def calculate_batch_metrics(self, pred, target):
         """Calculate metrics for a batch of images during training."""
-        # Ensure images are in [0, 1] range
+        # Ensure images are in [0, 1] range (they should be already)
         pred = torch.clamp(pred, 0, 1)
         target = torch.clamp(target, 0, 1)
         
@@ -46,19 +46,15 @@ class SRModelMicroscopy(SRModel):
         batch_metrics = {'psnr': [], 'ssim': [], 'msssim': [], 'mse': []}
         
         for i in range(pred.shape[0]):
-            # Get single image
-            pred_img = pred[i:i+1]
-            target_img = target[i:i+1]
+            # Get single image (keep as tensor)
+            pred_img = pred[i:i+1]  # Keep batch dimension
+            target_img = target[i:i+1]  # Keep batch dimension
             
-            # Convert to numpy for metric calculation
-            pred_np = tensor2img([pred_img])
-            target_np = tensor2img([target_img])
-            
-            # Calculate metrics - pass numpy arrays directly, not dict
-            batch_metrics['psnr'].append(self.calculate_psnr(pred_np, target_np))
-            batch_metrics['ssim'].append(self.calculate_ssim(pred_np, target_np))
-            batch_metrics['msssim'].append(self.calculate_msssim(pred_np, target_np))
-            batch_metrics['mse'].append(self.calculate_mse(pred_np, target_np))
+            # Calculate metrics directly with tensors (no conversion to numpy)
+            batch_metrics['psnr'].append(self.calculate_psnr(pred_img, target_img))
+            batch_metrics['ssim'].append(self.calculate_ssim(pred_img, target_img))
+            batch_metrics['msssim'].append(self.calculate_msssim(pred_img, target_img))
+            batch_metrics['mse'].append(self.calculate_mse(pred_img, target_img))
         
         # Return average metrics
         return {
@@ -73,8 +69,8 @@ class SRModelMicroscopy(SRModel):
         # Call parent method
         super().optimize_parameters(current_iter)
         
-        # Calculate metrics only every 100 iterations to speed up training
-        if current_iter % 100 == 0 and hasattr(self, 'output') and hasattr(self, 'gt'):
+        # Calculate metrics only every 500 iterations to speed up training (reduced from 100)
+        if current_iter % 500 == 0 and hasattr(self, 'output') and hasattr(self, 'gt'):
             batch_metrics = self.calculate_batch_metrics(self.output, self.gt)
             
             # Add metrics to log_dict for logging

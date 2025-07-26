@@ -133,6 +133,9 @@ venv.bak/
 
 
 Microscopy
+evaluation_results/
+model-kimianet
+optimized_models
 
 # Entorno Virtual
 edsr_venv/

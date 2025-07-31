@@ -1,0 +1,24 @@
+RESUMEN DE TIMING REALISTA EDSR - GPU
+==================================================
+
+INFORMACIÓN DEL SISTEMA:
+Dispositivo: GPU
+Platform: Linux-6.14.0-24-generic-x86_64-with-glibc2.39
+CPU: x86_64
+Cores: 16
+RAM: 31.05 GB
+GPU: Disponible (1 unidades)
+     GPU_0: NVIDIA GeForce RTX 4090 (23.6GB)
+PyTorch: 2.7.1+cu126
+CUDA: 12.6
+
+ESTADÍSTICAS DE TIMING CON IMÁGENES REALES:
+
+EDSR_512to1024:
+  Tiempo promedio: 384.80 ms
+  FPS promedio: 2.60
+  Memoria RAM promedio: 107.2 MB
+  Memoria GPU promedio: 24.0 MB
+  Imágenes reales usadas: 100
+  Tamaño imagen: 512x512
+  Escala: 2x

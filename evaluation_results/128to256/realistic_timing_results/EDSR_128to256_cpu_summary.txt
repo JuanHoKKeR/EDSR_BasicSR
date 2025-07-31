@@ -1,0 +1,21 @@
+RESUMEN DE TIMING REALISTA EDSR - CPU
+==================================================
+
+INFORMACIÓN DEL SISTEMA:
+Dispositivo: CPU
+Platform: Linux-6.14.0-24-generic-x86_64-with-glibc2.39
+CPU: x86_64
+Cores: 16
+RAM: 31.05 GB
+GPU: No disponible
+PyTorch: 2.7.1+cu126
+
+ESTADÍSTICAS DE TIMING CON IMÁGENES REALES:
+
+EDSR_128to256:
+  Tiempo promedio: 4424.55 ms
+  FPS promedio: 0.23
+  Memoria RAM promedio: 6.6 MB
+  Imágenes reales usadas: 100
+  Tamaño imagen: 128x128
+  Escala: 2x

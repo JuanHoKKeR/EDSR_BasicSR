@@ -1,0 +1,18 @@
+\begin{table}[!htb]
+\centering
+\caption{Métricas de evaluación para superresolución EDSR: EDSR 512->1024}
+\label{tab:edsr_visual_metrics_edsr_512->1024}
+\begin{tabular}{|l|c|}
+\hline
+\textbf{Métrica} & \textbf{Valor} \\
+\hline
+PSNR (dB) & 32.0639 \\
+SSIM & 0.8884 \\
+MS-SSIM & 0.9679 \\
+MSE & 40.43 \\
+MAE & 4.71 \\
+Índice Perceptual & 0.003649 \\
+\hline
+\end{tabular}
+\textbf{Notas:} PSNR más alto indica mejor fidelidad. SSIM evalúa similitud estructural (0-1, más alto mejor). MS-SSIM es extensión multi-escala de SSIM. MSE y MAE miden error medio cuadrático y absoluto respectivamente. Índice Perceptual basado en KimiaNet (más bajo mejor).
+\end{table}

@@ -1,0 +1,21 @@
+{
+  "metrics": {
+    "psnr": 38.68864440917969,
+    "ssim": 0.9750900268554688,
+    "ms_ssim": 0.9926759600639343,
+    "mse": 0.00013524950190912932
+  },
+  "patch_info": {
+    "model_scale_factor": 2,
+    "patch_size": 512,
+    "output_patch_size": 1024,
+    "generated_size": [
+      2048,
+      2048
+    ],
+    "ground_truth_size": [
+      2048,
+      2048
+    ]
+  }
+}

@@ -1,0 +1,39 @@
+[
+  {
+    "model_name": "EDSR_128to256",
+    "device": "gpu",
+    "scale_factor": 2,
+    "timestamp": 1753501392.1276503,
+    "lr_meta_file": "dataset/128to256/val_lr_meta.txt",
+    "mean_time_ms": 19.888235849794,
+    "std_time_ms": 1.2340377008752916,
+    "min_time_ms": 18.95355099986773,
+    "max_time_ms": 24.00768899678951,
+    "median_time_ms": 19.080893998761894,
+    "p95_time_ms": 21.242767200237726,
+    "p99_time_ms": 23.45470463747915,
+    "fps": 50.280980553152375,
+    "memory_increase_mb": 104.55859375,
+    "gpu_memory_increase_mb": 1.5,
+    "num_runs": 20,
+    "batch_size": 1,
+    "input_height": 128,
+    "input_width": 128,
+    "num_images_used": 100,
+    "num_batches_used": 100,
+    "using_real_images": true,
+    "device_type": "cuda",
+    "platform": "Linux-6.14.0-24-generic-x86_64-with-glibc2.39",
+    "processor": "x86_64",
+    "cpu_count": 16,
+    "ram_gb": 31.05,
+    "python_version": "3.12.3",
+    "torch_version": "2.7.1+cu126",
+    "gpu_available": true,
+    "gpu_count": 1,
+    "cuda_version": "12.6",
+    "gpu_details": [
+      "GPU_0: NVIDIA GeForce RTX 4090 (23.6GB)"
+    ]
+  }
+]

@@ -1,0 +1,7 @@
+Model,Device,Samples,Mean_Time_ms,Std_Time_ms,FPS_mean,Memory_MB,GPU_Memory_MB
+128to256,GPU,1,19.89,nan,50.28,104.6,1.5
+128to256,CPU,1,4424.55,nan,0.23,6.6,0.0
+256to512,GPU,1,89.53,nan,11.17,109.5,6.0
+256to512,CPU,1,18875.84,nan,0.05,34.3,0.0
+512to1024,GPU,1,384.80,nan,2.60,107.2,24.0
+512to1024,CPU,1,76791.93,nan,0.01,72.1,0.0

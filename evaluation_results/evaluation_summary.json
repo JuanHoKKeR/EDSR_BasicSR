@@ -1,0 +1,86 @@
+{
+  "start_time": "2025-07-25T19:44:53.748840",
+  "models_evaluated": [
+    {
+      "model_name": "128to256",
+      "start_time": "2025-07-25T19:44:53.749272",
+      "steps": [
+        {
+          "step": "metrics_evaluation",
+          "success": true,
+          "duration": 313.6604092121124,
+          "output": "\u26a0\ufe0f  TensorFlow no disponible - KimiaNet deshabilitado\n\ud83d\udd2c EVALUADOR DE MODELO EDSR OPTIMIZADO\n========================================\nModelo: EDSR_128to256\nRuta del modelo: optimized_models/edsr_128to256_optimized.pt\nDataset LR: dataset/128to256/val_lr_meta.txt\nDataset HR: dataset/128to256/val_hr_meta.txt\nKimiaNet: Habilitado\nKimiaNet pesos: model-kimianet/KimiaNetKerasWeights.h5\nResultados: evaluation_results/128to256/Validation_Images\n\ud83d\udcca Evaluaci\u00f3n sin KimiaNet - solo m\u00e9tricas b\u00e1sicas\n\ud83d\udce6 Cargando"
+        },
+        {
+          "step": "timing_gpu",
+          "success": false,
+          "duration": 0.058643341064453125,
+          "output": "python: can't open file '/media/adalab/Bodega/JuanCruz/EDSR_BasicSR/scripts/benchmark_edsr_timing.py': [Errno 2] No such file or directory\n"
+        },
+        {
+          "step": "timing_cpu",
+          "success": false,
+          "duration": 0.03695178031921387,
+          "output": "python: can't open file '/media/adalab/Bodega/JuanCruz/EDSR_BasicSR/scripts/benchmark_edsr_timing.py': [Errno 2] No such file or directory\n"
+        }
+      ],
+      "total_duration": 313.760324716568,
+      "end_time": "2025-07-25T19:50:07.509601"
+    },
+    {
+      "model_name": "256to512",
+      "start_time": "2025-07-25T19:50:07.510664",
+      "steps": [
+        {
+          "step": "metrics_evaluation",
+          "success": true,
+          "duration": 877.8855340480804,
+          "output": "\u26a0\ufe0f  TensorFlow no disponible - KimiaNet deshabilitado\n\ud83d\udd2c EVALUADOR DE MODELO EDSR OPTIMIZADO\n========================================\nModelo: EDSR_256to512\nRuta del modelo: optimized_models/edsr_256to512_optimized.pt\nDataset LR: dataset/256to512/val_lr_meta.txt\nDataset HR: dataset/256to512/val_hr_meta.txt\nKimiaNet: Habilitado\nKimiaNet pesos: model-kimianet/KimiaNetKerasWeights.h5\nResultados: evaluation_results/256to512/Validation_Images\n\ud83d\udcca Evaluaci\u00f3n sin KimiaNet - solo m\u00e9tricas b\u00e1sicas\n\ud83d\udce6 Cargando"
+        },
+        {
+          "step": "timing_gpu",
+          "success": false,
+          "duration": 0.039659976959228516,
+          "output": "python: can't open file '/media/adalab/Bodega/JuanCruz/EDSR_BasicSR/scripts/benchmark_edsr_timing.py': [Errno 2] No such file or directory\n"
+        },
+        {
+          "step": "timing_cpu",
+          "success": false,
+          "duration": 0.05402374267578125,
+          "output": "python: can't open file '/media/adalab/Bodega/JuanCruz/EDSR_BasicSR/scripts/benchmark_edsr_timing.py': [Errno 2] No such file or directory\n"
+        }
+      ],
+      "total_duration": 877.9833617210388,
+      "end_time": "2025-07-25T20:04:45.494026"
+    },
+    {
+      "model_name": "512to1024",
+      "start_time": "2025-07-25T20:04:45.494380",
+      "steps": [
+        {
+          "step": "metrics_evaluation",
+          "success": true,
+          "duration": 3000.2121992111206,
+          "output": "\u26a0\ufe0f  TensorFlow no disponible - KimiaNet deshabilitado\n\ud83d\udd2c EVALUADOR DE MODELO EDSR OPTIMIZADO\n========================================\nModelo: EDSR_512to1024\nRuta del modelo: optimized_models/edsr_512to1024_optimized.pt\nDataset LR: dataset/512to1024/val_lr_meta.txt\nDataset HR: dataset/512to1024/val_hr_meta.txt\nKimiaNet: Habilitado\nKimiaNet pesos: model-kimianet/KimiaNetKerasWeights.h5\nResultados: evaluation_results/512to1024/Validation_Images\n\ud83d\udcca Evaluaci\u00f3n sin KimiaNet - solo m\u00e9tricas b\u00e1sicas\n\ud83d\udce6 Car"
+        },
+        {
+          "step": "timing_gpu",
+          "success": false,
+          "duration": 0.03447914123535156,
+          "output": "python: can't open file '/media/adalab/Bodega/JuanCruz/EDSR_BasicSR/scripts/benchmark_edsr_timing.py': [Errno 2] No such file or directory\n"
+        },
+        {
+          "step": "timing_cpu",
+          "success": false,
+          "duration": 0.03512930870056152,
+          "output": "python: can't open file '/media/adalab/Bodega/JuanCruz/EDSR_BasicSR/scripts/benchmark_edsr_timing.py': [Errno 2] No such file or directory\n"
+        }
+      ],
+      "total_duration": 3000.28609251976,
+      "end_time": "2025-07-25T20:54:45.780475"
+    }
+  ],
+  "total_duration": 4192.032022714615,
+  "errors": [],
+  "end_time": "2025-07-25T20:54:45.780972"
+}

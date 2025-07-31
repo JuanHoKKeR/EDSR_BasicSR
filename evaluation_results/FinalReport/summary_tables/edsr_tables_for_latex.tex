@@ -1,0 +1,41 @@
+
+% Tabla de Métricas de Modelos EDSR
+\begin{table*}[htbp]
+\centering
+\caption{Performance Metrics of EDSR Models for Histopathology Super-Resolution}
+\label{tab:edsr_metrics}
+\begin{tabular}{|l|c|c|c|c|c|c|c|c|c|}
+\hline
+\textbf{Model} & \textbf{Scale} & \textbf{Resolution} & \textbf{Architecture} & \textbf{PSNR} & \textbf{SSIM} & \textbf{MS-SSIM} & \textbf{Perceptual} & \textbf{MSE} & \textbf{Samples} \\
+& & (Input→Target) & (RB, NF) & (dB) & & & Index & & \\
+\hline
+128to256 & ×2 & 128×128→256×256 & (32, 256) & 24.3881 & 0.7624 & 0.7624 & 57.3165 & 277.8306 & 1000 \\
+256to512 & ×2 & 256×256→512×512 & (32, 256) & 27.3738 & 0.8156 & 0.8156 & 21.0363 & 141.8040 & 1000 \\
+512to1024 & ×2 & 512×512→1024×1024 & (32, 256) & 7.8641 & 0.3258 & nan & nan & nan & 1000 \\
+\hline
+\end{tabular}
+\begin{tablenotes}
+\item RB: ResBlocks, NF: Number of Features
+\item All models use Residual Scale = 0.1 and RGB Range = 255
+\end{tablenotes}
+\end{table*}
+
+
+% Tabla de Timing EDSR
+\begin{table}[htbp]
+\centering
+\caption{EDSR Inference Time Comparison: GPU vs CPU}
+\label{tab:edsr_timing}
+\begin{tabular}{|l|c|c|c|c|c|}
+\hline
+\textbf{Model} & \textbf{Device} & \textbf{Time (ms)} & \textbf{FPS} & \textbf{RAM (MB)} & \textbf{VRAM (MB)} \\
+\hline
+128to256 & GPU & 19.89 & 50.28 & 104.6 & 1.5 \\
+128to256 & CPU & 4424.55 & 0.23 & 6.6 & 0.0 \\
+256to512 & GPU & 89.53 & 11.17 & 109.5 & 6.0 \\
+256to512 & CPU & 18875.84 & 0.05 & 34.3 & 0.0 \\
+512to1024 & GPU & 384.80 & 2.60 & 107.2 & 24.0 \\
+512to1024 & CPU & 76791.93 & 0.01 & 72.1 & 0.0 \\
+\hline
+\end{tabular}
+\end{table}

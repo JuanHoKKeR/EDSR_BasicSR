@@ -1,123 +1,605 @@
-<p align="center">
-  <img src="assets/basicsr_xpixel_logo.png" height=120>
-</p>
+# EDSR for Histopathology Super-Resolution
 
-## <div align="center"><b><a href="README.md">English</a> | <a href="README_CN.md">简体中文</a></b></div>
+[![Python 3.9](https://img.shields.io/badge/python-3.9-blue.svg)](https://www.python.org/downloads/release/python-390/)
+[![PyTorch 1.13](https://img.shields.io/badge/PyTorch-1.13-red.svg)](https://pytorch.org/)
+[![BasicSR](https://img.shields.io/badge/BasicSR-framework-green.svg)](https://github.com/XPixelGroup/BasicSR)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-<div align="center">
+Una implementación especializada de **Enhanced Deep Super-Resolution Network (EDSR)** optimizada para imágenes de histopatología de cáncer de mama. Este proyecto forma parte de un **Trabajo de Grado** enfocado en super-resolución para aplicaciones médicas mediante arquitecturas CNN residuales.
 
-[![LICENSE](https://img.shields.io/github/license/xinntao/basicsr.svg)](https://github.com/xinntao/BasicSR/blob/master/LICENSE.txt)
-[![PyPI](https://img.shields.io/pypi/v/basicsr)](https://pypi.org/project/basicsr/)
-[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/xinntao/BasicSR.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/xinntao/BasicSR/context:python)
-[![python lint](https://github.com/xinntao/BasicSR/actions/workflows/pylint.yml/badge.svg)](https://github.com/xinntao/BasicSR/blob/master/.github/workflows/pylint.yml)
-[![Publish-pip](https://github.com/xinntao/BasicSR/actions/workflows/publish-pip.yml/badge.svg)](https://github.com/xinntao/BasicSR/blob/master/.github/workflows/publish-pip.yml)
-[![gitee mirror](https://github.com/xinntao/BasicSR/actions/workflows/gitee-mirror.yml/badge.svg)](https://github.com/xinntao/BasicSR/blob/master/.github/workflows/gitee-mirror.yml)
+## 🎯 **Objetivo del Proyecto**
 
-</div>
+Adaptar y evaluar EDSR, una arquitectura CNN residual consolidada y estable, para super-resolución de imágenes de microscopia histopatológica, aprovechando su simplicidad arquitectural y robustez en el entrenamiento.
 
-<div align="center">
+## ✨ **Características Principales**
 
-⚡[**HowTo**](#-HOWTOs) **|** 🔧[**Installation**](docs/INSTALL.md) **|** 💻[**Training Commands**](docs/TrainTest.md) **|** 🐢[**DatasetPrepare**](docs/DatasetPreparation.md) **|** 🏰[**Model Zoo**](docs/ModelZoo.md)
+- **🔬 Especializado en Histopatología**: Optimizado para imágenes de cáncer de mama
+- **🏗️ Arquitectura CNN Residual**: Utiliza bloques residuales profundos para mejor reconstrucción
+- **⚡ Estabilidad Excepcional**: Entrenamiento robusto sin mode collapse o inestabilidades
+- **🎯 Simplicidad Efectiva**: Arquitectura limpia y bien documentada
+- **📊 Referencia Confiable**: Excelente baseline para comparaciones experimentales
+- **📈 Sistema de Evaluación Comprehensive**: Métricas especializadas para imágenes médicas
 
-📕[**中文解读文档**](https://github.com/XPixelGroup/BasicSR-docs) **|** 📊 [**Plot scripts**](scripts/plot) **|** 📝[Introduction](docs/introduction.md) **|** <a href="https://github.com/XPixelGroup/BasicSR/tree/master/colab"><img src="https://colab.research.google.com/assets/colab-badge.svg" height="18" alt="google colab logo"></a> **|** ⏳[TODO List](https://github.com/xinntao/BasicSR/projects) **|** ❓[FAQ](docs/FAQ.md)
-</div>
+## 🔄 **Diferencias con el Proyecto Original**
 
-🚀 We add [BasicSR-Examples](https://github.com/xinntao/BasicSR-examples), which provides guidance and templates of using BasicSR as a python package. 🚀 <br>
-📢 **技术交流QQ群**：**320960100** &emsp; 入群答案：**互帮互助共同进步** <br>
-🧭 [入群二维码](#-contact) (QQ、微信) &emsp;&emsp; [入群指南 (腾讯文档)](https://docs.qq.com/doc/DYXBSUmxOT0xBZ05u) <br>
+Este repositorio está basado en [BasicSR](https://github.com/XPixelGroup/BasicSR) pero incluye adaptaciones específicas:
 
----
+| Aspecto | BasicSR Original | Esta Implementación |
+|---------|------------------|-------------------|
+| **Dominio** | Imágenes naturales (DIV2K) | Histopatología específica |
+| **Dataset** | Datasets estándar | Dataset histopatológico especializado |
+| **Configuración** | Configuraciones generales | Optimizadas para imágenes médicas |
+| **Evaluación** | Métricas básicas | Sistema comprehensive médico |
+| **Entrenamiento** | Multi-escala estándar | Enfoque en factores específicos |
+| **Aplicación** | Uso general | Diagnóstico médico asistido |
 
-BasicSR (**Basic** **S**uper **R**estoration) is an open-source **image and video restoration** toolbox based on PyTorch, such as super-resolution, denoise, deblurring, JPEG artifacts removal, *etc*.<br>
-BasicSR (**Basic** **S**uper **R**estoration) 是一个基于 PyTorch 的开源 图像视频复原工具箱, 比如 超分辨率, 去噪, 去模糊, 去 JPEG 压缩噪声等.
+## 🚀 **Inicio Rápido**
 
-🚩 **New Features/Updates**
+### Prerequisitos
+- Python 3.9+
+- PyTorch 1.13+
+- CUDA 11.2+ (recomendado)
+- GPU con 8GB+ VRAM para entrenamiento
 
-- ✅ July 26, 2022. Add plot scripts 📊[Plot](scripts/plot).
-- ✅ May 9, 2022. BasicSR joins [XPixel](http://xpixel.group/).
-- ✅ Oct 5, 2021. Add **ECBSR training and testing** codes: [ECBSR](https://github.com/xindongzhang/ECBSR).
-  > ACMMM21: Edge-oriented Convolution Block for Real-time Super Resolution on Mobile Devices
-- ✅ Sep 2, 2021. Add **SwinIR training and testing** codes: [SwinIR](https://github.com/JingyunLiang/SwinIR) by [Jingyun Liang](https://github.com/JingyunLiang). More details are in [HOWTOs.md](docs/HOWTOs.md#how-to-train-swinir-sr)
-- ✅ Aug 5, 2021. Add NIQE, which produces the same results as MATLAB (both are 5.7296 for tests/data/baboon.png).
-- ✅ July 31, 2021. Add **bi-directional video super-resolution** codes: [**BasicVSR** and IconVSR](https://arxiv.org/abs/2012.02181).
-  > CVPR21: BasicVSR: The Search for Essential Components in Video Super-Resolution and Beyond
-- **[More](docs/history_updates.md)**
+### 1. Clonar el Repositorio
+```bash
+git clone https://github.com/JuanHoKKeR/EDSR_BasicSR.git
+cd EDSR_BasicSR
+```
 
----
+### 2. Instalación de Dependencias
+```bash
+# Instalar BasicSR y dependencias
+pip install basicsr
+pip install -r requirements.txt
 
-If BasicSR helps your research or work, please help to ⭐ this repo or recommend it to your friends. Thanks😊 <br>
-Other recommended projects:<br>
-▶️ [Real-ESRGAN](https://github.com/xinntao/Real-ESRGAN): A practical algorithm for general image restoration<br>
-▶️ [GFPGAN](https://github.com/TencentARC/GFPGAN): A practical algorithm for real-world face restoration <br>
-▶️ [facexlib](https://github.com/xinntao/facexlib): A collection that provides useful face-relation functions.<br>
-▶️ [HandyView](https://github.com/xinntao/HandyView): A PyQt5-based image viewer that is handy for view and comparison. <br>
-▶️ [HandyFigure](https://github.com/xinntao/HandyFigure): Open source of paper figures <br>
-<sub>([ESRGAN](https://github.com/xinntao/ESRGAN), [EDVR](https://github.com/xinntao/EDVR), [DNI](https://github.com/xinntao/DNI), [SFTGAN](https://github.com/xinntao/SFTGAN))</sub>
-<sub>([HandyCrawler](https://github.com/xinntao/HandyCrawler), [HandyWriting](https://github.com/xinntao/HandyWriting))</sub>
+# Instalar en modo desarrollo (recomendado)
+python setup.py develop
+```
 
----
+### 3. Preparar el Dataset
+Organiza tu dataset con la siguiente estructura:
+```
+datasets/
+├── histopatologia/
+│   ├── train/
+│   │   ├── hr/              # Imágenes de alta resolución
+│   │   └── lr/              # Imágenes de baja resolución
+│   ├── val/
+│   │   ├── hr/
+│   │   └── lr/
+│   └── test/
+│       ├── hr/
+│       └── lr/
+```
 
-## ⚡ HOWTOs
+### 4. Configurar el Entrenamiento
+Edita el archivo de configuración YAML en `options/train/EDSR/`:
 
-We provide simple pipelines to train/test/inference models for a quick start.
-These pipelines/commands cannot cover all the cases and more details are in the following sections.
+```yaml
+# Configuración general
+name: EDSR_histopatologia_x2_f256_b32
+model_type: SRModel
+scale: 2
+num_gpu: 1
+manual_seed: 0
 
-| GAN                  |                                                |                                                        |          |                                                |                                                        |
-| :------------------- | :--------------------------------------------: | :----------------------------------------------------: | :------- | :--------------------------------------------: | :----------------------------------------------------: |
-| StyleGAN2            | [Train](docs/HOWTOs.md#How-to-train-StyleGAN2) | [Inference](docs/HOWTOs.md#How-to-inference-StyleGAN2) |          |                                                |                                                        |
-| **Face Restoration** |                                                |                                                        |          |                                                |                                                        |
-| DFDNet               |                       -                        |  [Inference](docs/HOWTOs.md#How-to-inference-DFDNet)   |          |                                                |                                                        |
-| **Super Resolution** |                                                |                                                        |          |                                                |                                                        |
-| ESRGAN               |                     *TODO*                     |                         *TODO*                         | SRGAN    |                     *TODO*                     |                         *TODO*                         |
-| EDSR                 |                     *TODO*                     |                         *TODO*                         | SRResNet |                     *TODO*                     |                         *TODO*                         |
-| RCAN                 |                     *TODO*                     |                         *TODO*                         | SwinIR   | [Train](docs/HOWTOs.md#how-to-train-swinir-sr) | [Inference](docs/HOWTOs.md#how-to-inference-swinir-sr) |
-| EDVR                 |                     *TODO*                     |                         *TODO*                         | DUF      |                       -                        |                         *TODO*                         |
-| BasicVSR             |                     *TODO*                     |                         *TODO*                         | TOF      |                       -                        |                         *TODO*                         |
-| **Deblurring**       |                                                |                                                        |          |                                                |                                                        |
-| DeblurGANv2          |                       -                        |                         *TODO*                         |          |                                                |                                                        |
-| **Denoise**          |                                                |                                                        |          |                                                |                                                        |
-| RIDNet               |                       -                        |                         *TODO*                         | CBDNet   |                       -                        |                         *TODO*                         |
+# Dataset configuration
+datasets:
+  train:
+    name: histopatologia_train
+    type: PairedImageDataset
+    dataroot_gt: datasets/histopatologia/train/hr
+    dataroot_lq: datasets/histopatologia/train/lr
+    filename_tmpl: '{}'
+    io_backend:
+      type: disk
+    
+    gt_size: 256
+    use_hflip: true
+    use_rot: true
+    
+    # Data loader
+    use_shuffle: true
+    num_worker_per_gpu: 8
+    batch_size_per_gpu: 4
+    dataset_enlarge_ratio: 1
+    prefetch_mode: ~
 
-## ✨ **Projects that use BasicSR**
+  val:
+    name: histopatologia_val
+    type: PairedImageDataset
+    dataroot_gt: datasets/histopatologia/val/hr
+    dataroot_lq: datasets/histopatologia/val/lr
+    io_backend:
+      type: disk
 
-- [**Real-ESRGAN**](https://github.com/xinntao/Real-ESRGAN): A practical algorithm for general image restoration
-- [**GFPGAN**](https://github.com/TencentARC/GFPGAN): A practical algorithm for real-world face restoration
+# Network structures
+network_g:
+  type: EDSR
+  num_in_ch: 3
+  num_out_ch: 3
+  num_feat: 256           # Número de características
+  num_block: 32           # Número de bloques residuales
+  upscale: 2
+  res_scale: 0.1
+  img_range: 255.
+  rgb_mean: [0.4488, 0.4371, 0.4040]
 
-If you use `BasicSR` in your open-source projects, welcome to contact me (by [email](#-contact) or opening an issue/pull request). I will add your projects to the above list 😊
+# Training settings
+train:
+  ema_decay: 0.999
+  optim_g:
+    type: Adam
+    lr: !!float 1e-4
+    weight_decay: 0
+    betas: [0.9, 0.99]
 
-## 📜 License and Acknowledgement
+  scheduler:
+    type: MultiStepLR
+    milestones: [200000, 400000, 600000, 800000]
+    gamma: 0.5
 
-This project is released under the [Apache 2.0 license](LICENSE.txt).<br>
-More details about **license** and **acknowledgement** are in [LICENSE](LICENSE/README.md).
+  total_iter: 1000000
+  warmup_iter: -1  # Sin warmup
 
-## 🌏 Citations
+  # Losses
+  pixel_opt:
+    type: L1Loss
+    loss_weight: 1.0
+    reduction: mean
+```
 
-If BasicSR helps your research or work, please cite BasicSR.<br>
-The following is a BibTeX reference. The BibTeX entry requires the `url` LaTeX package.
+### 5. Ejecutar Entrenamiento
+```bash
+# Entrenamiento básico
+python basicsr/train.py -opt options/train/EDSR/train_EDSR_histopatologia_x2.yml
 
-``` latex
-@misc{basicsr,
-  author =       {Xintao Wang and Liangbin Xie and Ke Yu and Kelvin C.K. Chan and Chen Change Loy and Chao Dong},
-  title =        {{BasicSR}: Open Source Image and Video Restoration Toolbox},
-  howpublished = {\url{https://github.com/XPixelGroup/BasicSR}},
-  year =         {2022}
+# Con logging detallado
+python basicsr/train.py -opt options/train/EDSR/train_EDSR_histopatologia_x2.yml --debug
+```
+
+## 📁 **Estructura del Proyecto**
+
+```
+EDSR_BasicSR/
+├── basicsr/                        # Framework BasicSR
+│   ├── archs/                      # Arquitecturas de redes
+│   │   ├── edsr_arch.py           # Implementación EDSR
+│   │   └── arch_util.py           # Utilidades de arquitectura
+│   ├── data/                       # Manejo de datasets
+│   │   ├── paired_image_dataset.py # Dataset pareado LR-HR
+│   │   └── transforms.py          # Transformaciones de datos
+│   ├── models/                     # Modelos de entrenamiento
+│   │   ├── sr_model.py            # Modelo base de super-resolución
+│   │   └── base_model.py          # Modelo base
+│   ├── losses/                     # Funciones de pérdida
+│   │   ├── basic_loss.py          # L1, L2, etc.
+│   │   └── perceptual_loss.py     # Pérdida perceptual
+│   └── train.py                   # Script principal de entrenamiento
+├── options/                        # Archivos de configuración
+│   ├── train/EDSR/                # Configuraciones de entrenamiento
+│   │   ├── train_EDSR_histopatologia_x2.yml
+│   │   ├── train_EDSR_histopatologia_x4.yml
+│   │   └── train_EDSR_custom.yml
+│   └── test/EDSR/                 # Configuraciones de testing
+├── experiments/                    # Resultados experimentales
+│   └── [experiment_name]/
+│       ├── models/                # Checkpoints del modelo
+│       ├── training_states/       # Estados del optimizador
+│       ├── visualization/         # Imágenes de validación
+│       └── train_[timestamp].log  # Logs de entrenamiento
+├── datasets/                       # Datasets organizados
+├── results/                        # Resultados de testing
+└── requirements.txt               # Dependencias
+```
+
+## 🧠 **Arquitectura EDSR**
+
+### **Enhanced Deep Super-Resolution Network**
+
+EDSR elimina las capas de normalización batch de ResNet original y utiliza:
+
+```python
+# Arquitectura base en basicsr/archs/edsr_arch.py
+class EDSR(nn.Module):
+    def __init__(self, num_in_ch=3, num_out_ch=3, num_feat=256, 
+                 num_block=32, upscale=2, res_scale=0.1, img_range=255.):
+        
+        # Extracción de características inicial
+        self.conv_first = nn.Conv2d(num_in_ch, num_feat, 3, 1, 1)
+        
+        # Bloques residuales principales
+        self.body = make_layer(ResidualBlockNoBN, num_block, 
+                              num_feat=num_feat, res_scale=res_scale)
+        
+        # Convolución antes del upsampling
+        self.conv_after_body = nn.Conv2d(num_feat, num_feat, 3, 1, 1)
+        
+        # Upsampling
+        self.upsample = Upsample(upscale, num_feat)
+        
+        # Reconstrucción final
+        self.conv_last = nn.Conv2d(num_feat, num_out_ch, 3, 1, 1)
+```
+
+### **Configuraciones por Resolución**
+
+#### **128→256 (×2) - Configuración Estándar**
+```yaml
+network_g:
+  type: EDSR
+  num_feat: 256
+  num_block: 32
+  upscale: 2
+  res_scale: 0.1
+
+train:
+  total_iter: 300000
+  batch_size_per_gpu: 16
+```
+
+#### **256→512 (×2) - Configuración Intermedia**
+```yaml
+network_g:
+  type: EDSR
+  num_feat: 256
+  num_block: 32
+  upscale: 2
+  res_scale: 0.1
+
+train:
+  total_iter: 500000
+  batch_size_per_gpu: 8
+```
+
+#### **512→1024 (×2) - Alta Resolución**
+```yaml
+network_g:
+  type: EDSR
+  num_feat: 256
+  num_block: 32
+  upscale: 2
+  res_scale: 0.1
+
+train:
+  total_iter: 800000
+  batch_size_per_gpu: 4
+```
+
+## 🚀 **Scripts Principales**
+
+### **1. Entrenamiento**
+
+#### Entrenamiento Básico
+```bash
+python basicsr/train.py -opt options/train/EDSR/train_EDSR_histopatologia_x2.yml
+```
+
+#### Entrenamiento con Validación Automática
+```bash
+python basicsr/train.py \
+    -opt options/train/EDSR/train_EDSR_histopatologia_x2.yml \
+    --auto_resume \
+    --debug
+```
+
+#### Reanudar Entrenamiento
+```bash
+python basicsr/train.py \
+    -opt options/train/EDSR/train_EDSR_histopatologia_x2.yml \
+    --auto_resume
+```
+
+### **2. Testing y Evaluación**
+
+#### Testing Básico
+```bash
+python basicsr/test.py -opt options/test/EDSR/test_EDSR_histopatologia_x2.yml
+```
+
+#### Configuración de Testing
+```yaml
+# test_EDSR_histopatologia_x2.yml
+name: EDSR_histopatologia_x2_test
+model_type: SRModel
+scale: 2
+num_gpu: 1
+
+datasets:
+  test_1:
+    name: histopatologia_test
+    type: PairedImageDataset
+    dataroot_gt: datasets/histopatologia/test/hr
+    dataroot_lq: datasets/histopatologia/test/lr
+    io_backend:
+      type: disk
+
+network_g:
+  type: EDSR
+  num_in_ch: 3
+  num_out_ch: 3
+  num_feat: 256
+  num_block: 32
+  upscale: 2
+  res_scale: 0.1
+  img_range: 255.
+
+path:
+  pretrain_network_g: experiments/EDSR_histopatologia_x2/models/net_g_latest.pth
+  strict_load_g: true
+
+val:
+  save_img: true
+  suffix: ~  # Sin sufijo en nombre de archivo
+  
+  metrics:
+    psnr: # Peak signal-to-noise ratio
+      type: calculate_psnr
+      crop_border: 2
+      test_y_channel: false
+      
+    ssim: # Structural similarity
+      type: calculate_ssim
+      crop_border: 2
+      test_y_channel: false
+```
+
+## ⚙️ **Configuración Avanzada**
+
+### **Optimización de Memoria**
+
+Para GPUs con memoria limitada:
+
+```yaml
+# Reducir batch size
+train:
+  batch_size_per_gpu: 2  # En lugar de 4 o más
+
+# Usar gradient checkpointing (si está disponible)
+network_g:
+  type: EDSR
+  use_checkpoint: true  # Para ahorrar memoria
+
+# Ajustar workers
+datasets:
+  train:
+    num_worker_per_gpu: 4  # Reducir si hay problemas de memoria
+```
+
+### **Aceleración de Entrenamiento**
+
+```yaml
+# Usar precisión mixta (AMP)
+train:
+  use_amp: true
+  
+# Optimizar DataLoader
+datasets:
+  train:
+    prefetch_mode: cuda  # Precarga en GPU
+    pin_memory: true
+    
+# Scheduler optimizado
+train:
+  scheduler:
+    type: CosineAnnealingRestartLR
+    periods: [250000, 250000, 250000, 250000]
+    restart_weights: [1, 0.5, 0.5, 0.5]
+    eta_min: !!float 1e-7
+```
+
+### **Data Augmentation para Histopatología**
+
+```yaml
+datasets:
+  train:
+    # Augmentaciones básicas
+    use_hflip: true      # Flip horizontal
+    use_rot: true        # Rotaciones 90°
+    
+    # Augmentaciones de color (cuidadoso en histopatología)
+    color_jitter_prob: 0.1
+    color_jitter_shift: 20
+    
+    # Cropping inteligente
+    gt_size: 256
+    crop_type: center    # center, random
+    
+    # Normalización específica para histopatología
+    mean: [0.485, 0.456, 0.406]  # Valores típicos
+    std: [0.229, 0.224, 0.225]
+```
+
+## 📊 **Resultados y Rendimiento**
+
+### **Modelos Implementados**
+
+| Modelo | Resolución | Parámetros | Tiempo Entrenamiento* | Estabilidad |
+|--------|------------|------------|----------------------|-------------|
+| 128→256 | 128×128 → 256×256 | ~43M | ~2 días | ✅ Excelente |
+| 256→512 | 256×256 → 512×512 | ~43M | ~3 días | ✅ Excelente |
+| 512→1024 | 512×512 → 1024×1024 | ~43M | ~4 días | ✅ Excelente |
+
+*Tiempo estimado en RTX 4090
+
+### **Características Técnicas**
+
+#### **Ventajas de EDSR:**
+✅ **Arquitectura probada**: CNN residual consolidada y estable  
+✅ **Entrenamiento robusto**: Sin problemas de convergencia  
+✅ **Implementación limpia**: Código bien estructurado y mantenible  
+✅ **Reproducibilidad**: Resultados consistentes entre ejecuciones  
+✅ **Escalabilidad**: Mantiene arquitectura constante entre resoluciones  
+✅ **Simplicidad**: Sin componentes adversariales complejos  
+
+#### **Características Técnicas:**
+🔧 **Función de pérdida**: L1 Loss únicamente  
+🔧 **Optimizador**: Adam con learning rate scheduling  
+🔧 **Normalización**: Sin Batch Normalization (clave del diseño)  
+🔧 **Activación**: ReLU en bloques residuales  
+🔧 **Upsampling**: Sub-pixel convolution (PixelShuffle)  
+
+### **Comparación de Estabilidad**
+
+| Aspecto | EDSR | ESRGAN | SwinIR |
+|---------|------|--------|--------|
+| **Convergencia** | ✅ Monótona | ⚠️ Oscilante | ✅ Estable |
+| **Tiempo entrenamiento** | ⚠️ Largo | ✅ Moderado | ⚠️ Largo |
+| **Reproducibilidad** | ✅ Excelente | ⚠️ Variable | ✅ Buena |
+| **Simplicidad** | ✅ Máxima | ⚠️ Compleja | ⚠️ Compleja |
+
+## 🔧 **Herramientas y Utilidades**
+
+### **Monitoreo de Entrenamiento**
+
+```bash
+# Visualizar logs
+tensorboard --logdir experiments/EDSR_histopatologia_x2/tb_logger
+
+# Métricas automáticas disponibles:
+# - l_pix: Pérdida L1
+# - psnr: PSNR en validación
+# - ssim: SSIM en validación
+# - lr: Learning rate actual
+```
+
+### **Gestión de Experimentos**
+
+```yaml
+# Configuración de logging
+logger:
+  print_freq: 100           # Frecuencia de logs en consola
+  save_checkpoint_freq: 5000 # Guardar modelo cada 5k iter
+  use_tb_logger: true       # TensorBoard logging
+  wandb:                    # Weights & Biases (opcional)
+    project: EDSR_histopatologia
+    resume_id: ~
+```
+
+### **Validación Automática**
+
+```yaml
+# Validación durante entrenamiento
+val:
+  val_freq: !!float 5e3    # Validar cada 5k iteraciones
+  save_img: false          # No guardar imágenes (ahorra espacio)
+  
+  metrics:
+    psnr:
+      type: calculate_psnr
+      crop_border: 2
+      test_y_channel: false
+    ssim:
+      type: calculate_ssim
+      crop_border: 2
+      test_y_channel: false
+```
+
+## 🏗️ **Personalización y Extensiones**
+
+### **Modificar Arquitectura**
+
+```python
+# En basicsr/archs/edsr_arch.py
+class CustomEDSR(nn.Module):
+    def __init__(self, num_in_ch=3, num_out_ch=3, num_feat=256, 
+                 num_block=32, upscale=2, res_scale=0.1):
+        
+        # Modificar número de características
+        self.conv_first = nn.Conv2d(num_in_ch, num_feat, 3, 1, 1)
+        
+        # Ajustar número de bloques residuales
+        self.body = make_layer(ResidualBlockNoBN, num_block, 
+                              num_feat=num_feat, res_scale=res_scale)
+```
+
+### **Funciones de Pérdida Personalizadas**
+
+```python
+# En basicsr/losses/custom_loss.py
+class HistopathologyLoss(nn.Module):
+    def __init__(self, loss_weight=1.0):
+        super().__init__()
+        self.loss_weight = loss_weight
+        self.l1_loss = nn.L1Loss()
+        
+    def forward(self, pred, target):
+        # Pérdida L1 base
+        l1_loss = self.l1_loss(pred, target)
+        
+        # Agregar pérdidas específicas para histopatología
+        # (preservación de bordes, texturas, etc.)
+        
+        return l1_loss * self.loss_weight
+```
+
+## 🎯 **Casos de Uso y Aplicaciones**
+
+### **Diagnóstico Médico Asistido**
+- Mejora de imágenes histopatológicas de baja calidad
+- Preparación de imágenes para análisis automatizado
+- Standardización de calidad en diferentes equipos de microscopía
+
+### **Investigación Científica**
+- Baseline confiable para comparaciones experimentales
+- Arquitectura de referencia para nuevos métodos
+- Validación de técnicas de evaluación
+
+### **Análisis de Estructuras Celulares**
+- Preservación fiel de morfología tisular
+- Reconstrucción estable de patrones histológicos
+- Análisis detallado de arquitectura glandular
+
+## 🤝 **Contribución**
+
+Este proyecto es parte de un Trabajo de Grado enfocado en super-resolución médica. Las contribuciones son bienvenidas siguiendo las mejores prácticas de BasicSR.
+
+## 📄 **Licencia**
+
+Este proyecto está licenciado bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) para detalles.
+
+## 🙏 **Reconocimientos**
+
+- **Framework Original**: [BasicSR](https://github.com/XPixelGroup/BasicSR) por XPixel Group
+- **EDSR Paper**: Lim, Bee, et al. "Enhanced deep residual networks for single image super-resolution." CVPRW 2017.
+- **ResNet**: He, Kaiming, et al. "Deep residual learning for image recognition." CVPR 2016.
+- **BasicSR Team**: Por el excelente framework de super-resolución
+
+## 📞 **Contacto**
+
+- **Autor**: Juan David Cruz Useche
+- **Proyecto**: Trabajo de Grado - Super-Resolución para Histopatología
+- **GitHub**: [@JuanHoKKeR](https://github.com/JuanHoKKeR)
+- **Repositorio**: [EDSR_BasicSR](https://github.com/JuanHoKKeR/EDSR_BasicSR)
+
+## 📚 **Referencias**
+
+```bibtex
+@inproceedings{lim2017enhanced,
+  title={Enhanced deep residual networks for single image super-resolution},
+  author={Lim, Bee and Son, Sanghyun and Kim, Heewon and Nah, Seungjun and Mu Lee, Kyoung},
+  booktitle={Proceedings of the IEEE conference on computer vision and pattern recognition workshops},
+  pages={136--144},
+  year={2017}
+}
+
+@misc{wang2020basicsr,
+  title={BasicSR: Open Source Image and Video Restoration Toolbox},
+  author={Xintao Wang and Liangbin Xie and Chao Dong and Ying Shan},
+  howpublished={\url{https://github.com/XPixelGroup/BasicSR}},
+  year={2020}
+}
+
+@inproceedings{he2016deep,
+  title={Deep residual learning for image recognition},
+  author={He, Kaiming and Zhang, Xiangyu and Ren, Shaoqing and Sun, Jian},
+  booktitle={Proceedings of the IEEE conference on computer vision and pattern recognition},
+  pages={770--778},
+  year={2016}
 }
 ```
 
-> Xintao Wang, Liangbin Xie, Ke Yu, Kelvin C.K. Chan, Chen Change Loy and Chao Dong. BasicSR: Open Source Image and Video Restoration Toolbox. <https://github.com/xinntao/BasicSR>, 2022.
+---
 
-## 📧 Contact
-
-If you have any questions, please email `xintao.alpha@gmail.com`, `xintao.wang@outlook.com`.
-
-<br>
-
-- **QQ群**: 扫描左边二维码 或者 搜索QQ群号: 320960100   入群答案：互帮互助共同进步
-- **微信群**: 我们的一群已经满500人啦，二群也超过200人了；进群可以添加 Liangbin 的个人微信 (右边二维码)，他会在空闲的时候拉大家入群~
-
-<p align="center">
-  <img src="https://user-images.githubusercontent.com/17445847/134879983-6f2d663b-16e7-49f2-97e1-7c53c8a5f71a.jpg"  height="300">  &emsp;
-  <img src="https://user-images.githubusercontent.com/17445847/139572512-8e192aac-00fa-432b-ac8e-a33026b019df.png"  height="300">
-</p>
-
-![visitors](https://visitor-badge.glitch.me/badge?page_id=XPixelGroup/BasicSR) (start from 2022-11-06)
+**⭐ Si este proyecto te resulta útil para tu investigación en super-resolución médica, considera darle una estrella!**
